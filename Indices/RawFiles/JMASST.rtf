@@ -1,0 +1,133 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 	The Japan Meteorological Agency (JMA) has devised a new\
+SST-based index for determining El Nino and La Nina-El Viejo events. \
+(Marine Department Report, Japan Meteorological Agency, 1991):\
+\
+	(1.) Calculate monthly SST anomalies averaged for the area 4N\
+                 to 4S and 150W to 90W. \
+\
+	(2.) Apply a 5-month running mean of the data. The 5-month\
+                 running mean of SST anomalies is implemented to smooth \
+                 out possible intraseasonal variations.\
+\
+The data file (jmasst1949-today.filter-5) is the 5-month running mean\
+of the anomalies for the years 1949 to today. The data are organized so\
+that there is one record for each year. Each record contains the year\
+and 12 monthly values. The SST anomalies are in tenths of a degree\
+(times 10). Values of 999 indicate no value.\
+\
+The data file (jmasst_recon1868-1949.filter-5) is the 5-month running\
+mean of the anomalies for the years 1868-1949 based on reconstructed\
+monthly mean SST fields. The reconstructed SST fields were computed\
+using orthogonal projection technique (Meyers et al., 1997). The JMA\
+index was calculated identically to that described previously, meaning\
+the JMA climatological values given below were used to calculate the\
+JMA SST anomalies. A 5-month running mean was applied as well to\
+result in the JMA index. Values of 999 indicate no data available.\
+\
+The data file (jmasst1868-today.filter-5) is the JMA index based on\
+reconstructed monthly mean SST fields for the period Jan 1868 - Feb\
+1949, and on observed JMA SST index for March 1949 to present. In\
+other words combining previous two files for convenience. Values of\
+999 indicate no data available.\
+\
+Thus for the first record:\
+1949 999 999   0   0  -1  -2  -6  -8 -10 -11 -13 -13 \
+The anomalies for this year are negative, with a value of -13 indicated a cold\
+equatorial Pacific SST anomaly of -1.3 Deg-C.\
+\
+			======\
+			 Note:\
+			======\
+The "normals" or monthly cliamtological means used by JMA are:\
+Jan=25.4\
+Feb=26.2\
+Mar=26.9\
+Apr=27.1\
+May=26.6\
+Jun=26.1\
+Jul=25.2\
+Aug=24.6\
+Sep=24.6\
+Oct=24.6\
+Nov=24.6\
+Dec=24.9\
+\
+Please see email at the end of this file for description on how these means\
+were calculated at JMA.\
+\
+An interesting use of these data can be found in Sittel, M.C., 1994,\
+"Marginal probabilities of the extremes of ENSO events for temperature\
+and precipitation in the southeastern United States" Technical Report\
+94-1. August 1994. \
+\
+Available from: Center for Ocean-Atmospheric Prediction Studies,\
+Florida State University, Room 020 Love Bldg, Tallahassee, FL\
+32306-3041.\
+\
+Meyers, S. D., J. J. O'Brien, and E. Thelin, 1997: Reconstruction of\
+monthly SST in the Tropical Pacific ocean during 1868-1993 using\
+adaptive climate basis functions. J. Climate, submitted.\
+=====================================================================\
+\
+Dr. James J. O'Brien\
+Center for Ocean-Atmospheric Prediction Studies\
+Florida State University\
+235 E. Dirac/Ste 200 Johnson Bldg\
+Tallahassee, FL  32306-3041\
+\
+Email:   obrien@coaps.fsu.edu\
+\
+(904) 644-4581(Voice)   \
+(904) 644-4841(Fax)\
+\
+		======================================\
+		Other Informations regarding JMA Index\
+\
+		Email from Japan Meteorological Agency\
+		=======================================\
+\
+Description of JMA SST index:\
+\
+From ocean@hq.kishou.go.jp  Wed Sep 13 02:13:42 1995\
+Subject: JMA SST Index \
+\
+Dear Mr. Nunez,\
+\
+Thank you for your e-mail of 5 September on JMA SST Index.\
+\
+Unfortunately, we calculated the Index only from 1949. \
+\
+JMA determines monthly mean analysed SST from 1946 for each \
+two-degree latitude and longitude box over the global ocean \
+on the basis of conventional SST observations.  \
+Normals of monthly mean SST for each 2-deg x 2-deg box in \
+the global ocean were calculated from the monthly mean analyzed \
+SSTs for the period from 1961 to 1990.  Please refer to our \
+publication 'Climatic Charts of Sea Surface Temperatures of \
+the Western North Pacific and the Global Ocean'(1991).     \
+\
+The SST climatology and mean SST  for the area B \
+(4N - 4S, 150W-90W, See Table 1 (a) of the Monthly Ocean Report) \
+is an area average of the corresponding 120 (4 X 30 boxes) \
+monthly mean SST normals and analysed SST values, respectively.  \
+Thus, the base period of the climatology is from\
+1961 to 1990.  The anomaly (i.e. so-called JMA SST Index) is an area\
+average of  a deviation from the normal in each box.\
+\
+If you have any further questions, please let me know.\
+\
+Best regards,\
+\
+Kunio Sakurai\
+Head, El Nino Monitoring Center\
+Oceanographical Division\
+Marine Department\
+\
+}

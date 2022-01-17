@@ -5,6 +5,7 @@ import datetime
 import geopandas as gpd
 import contextily as cx
 import seaborn as sns
+
 from matplotlib.pyplot import cm
 from IPython.display import display
 
@@ -12,18 +13,17 @@ def logscaled_plot(df_final):
     
     '''
     FIGURE OF MEAN, LOG, SCALED data
-    Splicing Historical Data Raw Files to extract the correct columns
     
     Parameters
     ---------
       
-      df
-        Excel files with Historical Discharge Data
+      df_final
+        df_clean_clim_dis/rain = dataframe that is a subset based on climate types
     
     Returns
     --------
       
-      Daily Historical Discharge Data Table.
+      A subplot with mean,log,and standardized plot of the hydroclimate
     '''
     
     fig = plt.figure(figsize=(15,7))
@@ -48,24 +48,29 @@ def logscaled_plot(df_final):
     plt.title(f'Scale of Subset Data (Log), {mean_scale}')
     plt.ylabel('Scaled Data')
     plt.xlabel('Time')
-    #plt.savefig(f'../discharge/Data/Images/Dec17/raw_{criteria_name}_{criteria_number}_{crit_label}.eps', dpi = 600)
+    #plt.savefig(f'../discharge/Data/Figures/raw_{crit_name}_{crit_number}_{crit_label}.eps', dpi = 600)
     plt.show()
     
-def detrend_plot(df_final):
+def detrend_plot(df_final):#,crit_name,crit_number,crit_label):
     '''
     FIGURE OF DETREND AND DESEASONED data
-    Splicing Historical Data Raw Files to extract the correct columns
     
     Parameters
     ---------
       
-      df
-        Excel files with Historical Discharge Data
+      df_final
+        Final dataset that contains the output of the clean data functiion
+      crit_label
+        River Name (For river discharge) and Station Name (For rainfall data)
+      crit_name
+        Climate Type
+      crit_number
+        climate types I, II, III, IV
     
     Returns
     --------
       
-      Daily Historical Discharge Data Table.
+      Figure superimposed with scaled, detrended, deseasoned
     '''
     fig = plt.figure(figsize=(15,5))
     plt.plot(df_final['date'], df_final['data_scaled'], label = 'data_scaled')
@@ -76,24 +81,32 @@ def detrend_plot(df_final):
     plt.ylabel('Scaled De-Trend and De-Season Discharge (monthly)')
     plt.xlabel('Time')
     plt.legend(loc=4)
-    #plt.savefig(f'../discharge/Data/Images/Dec17/detrend_{criteria_name}_{criteria_number}_{crit_label}.eps', dpi = 600)
+    plt.savefig(f'../discharge/Data/Figures/detrend.eps', dpi = 600)
     plt.show()
     
 def data_enso_plot(df_final,crit_label,crit_name, crit_number, color_plot):
     '''
     CLEAN DATA FIGURES with ENSO
-    Splicing Historical Data Raw Files to extract the correct columns
     
     Parameters
     ---------
       
-      df
-        Excel files with Historical Discharge Data
+      df_final
+        Final dataset as a dataframe
+      crit_label
+        River Name (For river discharge) and Station Name (For rainfall data)
+      crit_name
+        Climate Type
+      crit_number
+        climate types I, II, III, IV
+      color_plot
+        CTI - black ; CTII - green ; CTIII - orange; CTIV - brown
     
     Returns
     --------
       
-      Daily Historical Discharge Data Table.
+      One plot with cleaning steps and ENSO index on the secondary Y-axis
+      
     '''
     fig, ax1 = plt.subplots(figsize=(15,7))
     ax2 = ax1.twinx()
@@ -111,20 +124,23 @@ def data_enso_plot(df_final,crit_label,crit_name, crit_number, color_plot):
     ax2.set_ylabel('Nino 3.4 rel (°C)', color='k')
     ax2.set_xlabel('Time (CE)')
     ax1.legend(loc='best')
-    #plt.savefig(f'../discharge/Data/Images/Dec5/{criteria_name}_{criteria_number}_{crit_label}.eps', dpi = 600)
+    #plt.savefig(f'../discharge/Data/Figures/{crit_name}_{crit_number}_{crit_label}.eps', dpi = 600)
     plt.show()
 
     
 def climatology_plot(df_final,crit_name, crit_number):
     ''' 
     Climatologies as box plots
-    Splicing Historical Data Raw Files to extract the correct columns
     
     Parameters
     ---------
       
-      df
-        Excel files with Historical Discharge Data
+      df_final
+        Final dataset as a dataframe
+      crit_name
+        Final dataset as a dataframe
+      crit_number
+        Final dataset as a dataframe
     
     Returns
     --------
@@ -145,5 +161,5 @@ def climatology_plot(df_final,crit_name, crit_number):
     ax[1].boxplot( list(month_group), whis=True, positions=month_list, notch=1, autorange=True, showfliers=False )
     plt.title(f'{crit_name} {crit_number}')
     plt.ylim( [0,1200] )
-    #plt.savefig(f'../discharge/Data/Images/Dec17/BoxPlot_Discharge_CT IV.eps', dpi = 600)
+    #plt.savefig(f'../discharge/Data/Figures/BoxPlot_Discharge_CT IV.eps', dpi = 600)
     plt.show()

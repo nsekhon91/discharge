@@ -170,14 +170,12 @@ def prep_his_dis_dic( df_index,df ):
     
     '''
     
-    print( 'Prep Dictionary of Historical Discharge Data' )
-    
     dic_temp = {}
     
     for i in df_index:
         # get year
         year=df['Unnamed: 12'].loc[i]
-        
+        print( f'Prep Historical Discharge Data for {year}' )
         # slicing for days
         df_temp = df.loc[i+2:i+34].dropna(axis=1, how = 'all')
         
@@ -311,6 +309,50 @@ def merge_rain_data( df_a, df_b, list_a, list_b, drop_list, mlabel):
     df_b = df_b.drop( drop_list , axis =1 )
     
     return df_b
+
+
+def prep_his_dis_data( dict_hist ):
+    
+    ''' 
+    Parameters
+    ---------
+      
+      dict
+        Historical Daily Discharge Data. 
+         
+  
+    Returns
+    --------
+      
+      Table with Historical Discharge data. Units of mm/month. 
+    
+    '''
+    
+    print( 'Prep Historic Discharge Data' ) 
+    dict_final = {}
+    
+    for k,v in dict_hist.items():
+        dict_final[k] = [] 
+        #dict_new_keys = 
+        for year,df_daily in v['data'].items():
+            # Change from l/sec (instantaneous) to mm/month
+            # [ [ Q (mean discharge) / A (drainage area) ] * 3600 * 24 * n of days ] / 10^6
+            dic_days = {1:31, 2:[28,29], 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+            df_discharge = df_daily.copy()
+            df_discharge = ( (( ( df_discharge.mean()/v['drainage'] ) * 0.0864 * 30)).to_frame() )
+            df_discharge = df_discharge.iloc[2: , :]
+            df_discharge.columns = [k]
+            df_discharge.index.names = ['Year']
+            df_discharge.reset_index(inplace=True)
+            look_up = {'JAN':1, 'FEB':2,  'MAR':3, 'APR':4,'MAY':5,
+                       'JUN':6, 'JUL':7, 'AUG':8 , 'SEPT':9,'OCT':10, 'NOV':11, 'DEC':12}
+            df_discharge['Year'] = df_discharge['Year'].map(lambda x: look_up[x])
+            df_discharge['Year'] = df_discharge['Year'].map(lambda x: datetime.datetime(year,x,1))
+            dict_final[k].append( df_discharge )
+
+        dict_final[k] = pd.concat(dict_final[k]).reset_index(drop=True)
+    
+    return dict_final
 
 
 

@@ -19,6 +19,10 @@ def logscaled_plot(df_final, savefolder, savelabel):
       
       df_final
         df_clean_clim_dis/rain = dataframe that is a subset based on climate types
+      savefolder
+        figures_folder > where figures are stored
+      savelabel
+        Climate_Type_1_Station_Name'
     
     Returns
     --------
@@ -51,7 +55,7 @@ def logscaled_plot(df_final, savefolder, savelabel):
     #plt.savefig(f'{savefolder}/raw_{savelabel}.eps', dpi = 600)
     plt.show()
     
-def detrend_plot(df, savefolder, savelabel):#,crit_name,crit_number,crit_label):
+def detrend_plot(df, savefolder, savelabel):
     '''
     FIGURE OF DETREND AND DESEASONED data
     
@@ -60,12 +64,10 @@ def detrend_plot(df, savefolder, savelabel):#,crit_name,crit_number,crit_label):
       
       df
         Final dataset that contains the output of the clean data function
-      crit_label
-        River Name (For river discharge) and Station Name (For rainfall data)
-      crit_name
-        Climate Type
-      crit_number
-        climate types I, II, III, IV
+      savefolder
+        figures_folder > where figures are stored
+      savelabel
+        Climate_Type_1_Station_Name'
     
     Returns
     --------
@@ -93,12 +95,10 @@ def data_enso_plot(df_final,savefolder,savelabel, color_plot):
       
       df_final
         Final dataset as a dataframe
-      crit_label
-        River Name (For river discharge) and Station Name (For rainfall data)
-      crit_name
-        Climate Type
-      crit_number
-        climate types I, II, III, IV
+      savefolder
+        figures_folder > where figures are stored
+      savelabel
+        Climate_Type_1_Station_Name'
       color_plot
         CTI - black ; CTII - green ; CTIII - orange; CTIV - brown
     
@@ -138,9 +138,9 @@ def climatology_plot( df_final, savefolder, crit_name, crit_number ):
       df_final
         Final dataset as a dataframe
       crit_name
-        Final dataset as a dataframe
+        Station and River name
       crit_number
-        Final dataset as a dataframe
+        I through IV
     
     Returns
     --------

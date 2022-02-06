@@ -84,7 +84,7 @@ def prep_mod_rain_data( folder ):
 
         df['Prpmm'] = df['PRCP Inch'] 
         
-        df_mon_sum  = df.resample('MS', on = 'Date').sum().reset_index()
+        df_mon_sum  = df.resample('MS', on = 'Date').mean().reset_index()
         df_mon_sum.replace(0.0, np.nan, inplace = True)
         df_mon_sum.replace(0.00, np.nan, inplace = True)
         df_2        = df_mon_sum.drop( ['YEAR','MONTH','DAY', 'PRCP Inch'],axis = 1 )
@@ -141,7 +141,7 @@ def prep_rain_data( filename, labelname ):
     df_p['Date'] = df_p.apply(lambda x: datetime.datetime( int(x[f'{labelname}_year']), int(x[f'{labelname}_month']), 
                                            int(x[f'{labelname}_day'])), axis = 1 )
 
-    df_2= df_p.resample('MS', on='Date').sum().reset_index()
+    df_2= df_p.resample('MS', on='Date').mean().reset_index()
     df_2.replace(0.0, np.nan, inplace = True)
     
     return df_2, df_2.columns

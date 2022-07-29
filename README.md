@@ -1,4 +1,4 @@
-# A decrease in river discharge and rainfall amount, from a 100-year dataset, in response to El Niño events on the interannual temporal scale for the Philippines
+# Investigating the response of hydrological processes to El Niño events using a 100-year dataset from the western Pacific Ocean
 
 ### Natasha Sekhon, Carlos Primo C. David, Mart Cyrel M. Geronia, Manuel Justin G. Custado, Daniel E. Ibarra 
 ### accepted at Journal of Hydrology: Regional Studies 

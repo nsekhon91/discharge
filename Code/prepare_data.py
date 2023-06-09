@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import datetime
-import contextily as cx
+#import contextily as cx
 import xlrd
 import os
 import glob
@@ -84,20 +84,29 @@ def prep_mod_rain_data( folder ):
 
         df['Prpmm'] = df['PRCP Inch'] 
         
-        df_mon_sum  = df.resample('MS', on = 'Date').mean().reset_index()
+        df_mon_sum  = df.resample('MS', on = 'Date').sum().reset_index()
         df_mon_sum.replace(0.0, np.nan, inplace = True)
         df_mon_sum.replace(0.00, np.nan, inplace = True)
         df_2        = df_mon_sum.drop( ['YEAR','MONTH','DAY', 'PRCP Inch'],axis = 1 )
         l_df_rain.append(df_2)
+        #display(df_2)
         
         # appending year and label
         temp_label = f"mod_{filename.split('/')[-1].split('.')[0].lower()}"
         l_label.append(temp_label)
 
-    df_final_rain = reduce( lambda left,right: pd.merge( left,right,on='Date', how='outer' ), l_df_rain )
-    df_final_rain = df_final_rain.drop(['Unnamed: 4_x','Unnamed: 4_y','Unnamed: 4'],axis = 1)
+    #df_final_rain = reduce( lambda left,right: pd.merge( left,right,on='Date', how='outer', suffixes = ('','') ), l_df_rain[:2] )
+    
+    for i, x in enumerate( l_df_rain ):
+        
+        if i == 0: 
+            df_final_rain = x
+        else:
+            df_final_rain = pd.merge( df_final_rain, x, on = 'Date', how = 'outer', suffixes = (l_label[i],l_label[i+1]))  
+        
+    df_final_rain = df_final_rain.drop(['Unnamed: 4'],axis = 1)
     df_final_rain.columns = l_label
-   
+    
     return df_final_rain, l_label
     
     
@@ -141,7 +150,7 @@ def prep_rain_data( filename, labelname ):
     df_p['Date'] = df_p.apply(lambda x: datetime.datetime( int(x[f'{labelname}_year']), int(x[f'{labelname}_month']), 
                                            int(x[f'{labelname}_day'])), axis = 1 )
 
-    df_2= df_p.resample('MS', on='Date').mean().reset_index()
+    df_2= df_p.resample('MS', on='Date').sum().reset_index()
     df_2.replace(0.0, np.nan, inplace = True)
     
     return df_2, df_2.columns
@@ -310,7 +319,27 @@ def merge_rain_data( df_a, df_b, list_a, list_b, drop_list, mlabel):
     
     return df_b
 
+def dump_inst_hist_dis( dict_hist ):
+    '''
+    Dump daily data (l/sec) into excel file
+    
+    Parameters
+    ---------
+      
+      dict
+        Historical Daily Discharge Data. 
+      
+    '''
+    
+    with pd.ExcelWriter('Data/Requests/hist_daily.xlsx') as writer:      
+    
+        for k,v in dict_hist.items():
 
+            for year, df_daily in v['data'].items():
+
+                  df_daily.to_excel( writer, sheet_name= f'{k}-{year}' )
+              
+    
 def prep_his_dis_data( dict_hist ):
     
     ''' 
@@ -329,17 +358,22 @@ def prep_his_dis_data( dict_hist ):
     '''
     
     print( 'Prep Historic Discharge Data' ) 
+    
     dict_final = {}
     
     for k,v in dict_hist.items():
+        
         dict_final[k] = [] 
-        #dict_new_keys = 
+
         for year,df_daily in v['data'].items():
             # Change from l/sec (instantaneous) to mm/month
             # [ [ Q (mean discharge) / A (drainage area) ] * 3600 * 24 * n of days ] / 10^6
-            dic_days = {1:31, 2:[28,29], 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+
             df_discharge = df_daily.copy()
-            df_discharge = ( (( ( df_discharge.mean()/v['drainage'] ) * 0.0864 * 30)).to_frame() )
+            
+            df_discharge = ( (( ( df_discharge.mean()/ v['drainage'] ) * 0.0864 * 30)).to_frame() )
+
+            
             df_discharge = df_discharge.iloc[2: , :]
             df_discharge.columns = [k]
             df_discharge.index.names = ['Year']

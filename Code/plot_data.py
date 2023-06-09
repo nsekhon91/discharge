@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime
-import geopandas as gpd
-import contextily as cx
+#import geopandas as gpd
+#import contextily as cx
 import seaborn as sns
 
 from matplotlib.pyplot import cm
